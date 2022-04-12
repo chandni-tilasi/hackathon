@@ -69,7 +69,7 @@
 // //        else{
 // //            console.log("successfully saved")
 // //        }
-       
+
 // //    })
 //     info.save()
 //     res.redirect("/")
@@ -89,32 +89,32 @@ var ejs = require("ejs")
 // var cors = require("cors");
 
 const app = express()
-app.set("view engine" , "ejs")
+app.set("view engine", "ejs")
 
 app.use(bodyParser.json())
 // app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({
-    extended:true
+    extended: true
 }))
 
-mongoose.connect('mongodb://localhost:27017/mydb',{
+mongoose.connect('mongodb://localhost:27017/mydb', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
 var db = mongoose.connection;
 
-db.on('error',()=>console.log("Error in Connecting to Database"));
-db.once('open',()=>console.log("Connected to Database"))
+db.on('error', () => console.log("Error in Connecting to Database"));
+db.once('open', () => console.log("Connected to Database"))
 
 
-app.get("/sign_up",function(req,res){
+app.get("/sign_up", function (req, res) {
     res.sendFile(__dirname + "/signup.html")
-    
+
 })
 
-app.post("/sign_up",(req,res)=>{
+app.post("/sign_up", (req, res) => {
     var username = req.body.user;
     var email = req.body.email;
     var phno = req.body.mobile;
@@ -123,54 +123,54 @@ app.post("/sign_up",(req,res)=>{
 
     var data = {
         "name": username,
-        "email" : email,
+        "email": email,
         "phno": phno,
-        "password" : password,
-        "conpass" :conpass
+        "password": password,
+        "conpass": conpass
     }
 
-    db.collection('users').insertOne(data,(err,collection)=>{
-        if(err){
+    db.collection('users').insertOne(data, (err, collection) => {
+        if (err) {
             throw err;
         }
         console.log("Record Inserted Successfully");
     });
 
-     res.redirect('/')
+    res.redirect('/')
 
 })
 
 
-app.get("/ds",function(req,res){
+app.get("/ds", function (req, res) {
     res.sendFile(__dirname + "/datastructure.html")
 })
 
-app.get("/js" , function(req,res){
+app.get("/js", function (req, res) {
     res.sendFile(__dirname + "/javascript.html")
 })
 
-app.get("/python",function(req,res){
+app.get("/python", function (req, res) {
     res.sendFile(__dirname + "/python.html")
 })
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.set({
         "Allow-access-Allow-Origin": '*'
     })
     return res.sendFile(__dirname + "/hackathon.html")
 })
 
-app.get("/WIT",function(req,res){
+app.get("/WIT", function (req, res) {
     res.sendFile(__dirname + "/whatisthis.html")
 })
 
-app.get("/monitors",function(req,res){
+app.get("/monitors", function (req, res) {
 
-        res.sendFile(__dirname + "/monitors.html")
-    
+    res.sendFile(__dirname + "/monitors.html")
+
 })
 
-app.listen(3000,function(req,res){
+app.listen(3000, function (req, res) {
     console.log("server is listening at port 3000")
 
 
